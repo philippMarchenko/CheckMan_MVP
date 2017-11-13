@@ -10,6 +10,8 @@ import com.devfill.checkman_mvp.model.Declarations;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Observable;
+
 public interface ListDeclarationsContract {
 
     interface View extends MvpView {
@@ -41,7 +43,7 @@ public interface ListDeclarationsContract {
     interface Model extends MvpModel {
 
         ArrayList<String> getSuggestionList();
-        List<Declarations> getDeclarations(String name);
+        Observable<Declarations> getDeclarations(String name);
 
     }
 
