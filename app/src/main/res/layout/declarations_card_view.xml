@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    >
+
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view_declarations"
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:elevation="8dp"
+        card_view:cardCornerRadius="8dp"
+        card_view:cardBackgroundColor="@color/colorPrimaryTransperent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:divider="?android:listDivider"
+            android:dividerPadding="@dimen/cardview_default_elevation"
+            android:showDividers="middle"
+            >
+
+            <TextView
+                android:text="Вася"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="false"
+                android:layout_alignParentStart="false"
+                android:id="@+id/name"
+                android:fontFamily="serif"
+                android:textColor="@color/cardview_light_background"
+                android:textSize="16sp"
+                android:layout_margin="5dp" />
+
+            <TextView
+                android:text="Начальник"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/position"
+                android:textSize="16sp"
+                android:textColor="@color/cardview_light_background"
+                android:layout_below="@+id/place_work"
+                android:layout_alignParentStart="false"
+                android:fontFamily="serif"
+                android:layout_margin="5dp" />
+
+            <TextView
+                android:id="@+id/place_work"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="serif"
+                android:text="ЦНАП"
+                android:textSize="16sp"
+                android:textColor="@color/cardview_light_background"
+                android:layout_centerVertical="false"
+                android:layout_below="@+id/name"
+                android:layout_margin="5dp" />
+
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>
