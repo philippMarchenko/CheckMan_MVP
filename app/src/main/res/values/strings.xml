@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Перевір чиновника.(Декларації)</string>
+
+
+    <string name="no_internet">Відсутнє підключення до мережі</string>
+    <string name="no_result">По вашому запиту нічого не знайдено</string>
+
 </resources>

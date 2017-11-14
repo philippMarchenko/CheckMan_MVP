@@ -2,8 +2,6 @@ package com.devfill.checkman_mvp.util;
 
 import android.util.Log;
 
-import com.devphill.checkman.util.WrappedIOException;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

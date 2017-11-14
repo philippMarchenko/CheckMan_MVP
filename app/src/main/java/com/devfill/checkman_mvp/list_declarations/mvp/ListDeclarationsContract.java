@@ -16,12 +16,8 @@ public interface ListDeclarationsContract {
 
     interface View extends MvpView {
 
-        void showListDeclarations(List<Declarations> declarationsList);
-
-        void hideListDeclarations();
-
-        void setModeSearch(boolean search);
-        void restoreSuggestionList();
+        void showListDeclarations(Declarations declarations);
+        void hideDownloadMode();
 
 
         // show message to user
@@ -35,9 +31,9 @@ public interface ListDeclarationsContract {
     interface Presenter extends MvpPresenter<View> {
 
         // field is filled
-        void onClickListItem(int position);
+        void get(int position);
 
-        void onSearchConfirmed(CharSequence text);
+        void getDeclarations(String text);
     }
 
     interface Model extends MvpModel {

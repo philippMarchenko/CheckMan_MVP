@@ -4,6 +4,7 @@ package com.devfill.checkman_mvp.list_declarations.mvp;
 import com.devfill.checkman_mvp.internet.ServerAPI;
 import com.devfill.checkman_mvp.model.Declarations;
 import com.devfill.checkman_mvp.storage.Preferences;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,7 @@ public class ListDeclarationsModel implements ListDeclarationsContract.Model{
         retrofit = new Retrofit.Builder()
                 .baseUrl(ServerAPI.BASE_URL)
                 .client(client)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
