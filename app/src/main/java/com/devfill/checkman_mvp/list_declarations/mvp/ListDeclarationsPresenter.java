@@ -47,9 +47,9 @@ public class  ListDeclarationsPresenter extends PresenterBase<ListDeclarationsCo
     @Override
     public void onClickItemDeclarations(int position) {
 
-        String  name =  declarationsList.get(position).getLastname() + " " + declarationsList.get(position).getFirstname(); //достаем имя
+      /*  String  name =  declarationsList.get(position).getLastname() + " " + declarationsList.get(position).getFirstname(); //достаем имя
         downloadFile(declarationsList.get(position).getLinkPDF(),name); //качаем файл по ссылке
-        declarationsList.get(position).getLinkPDF()
+        declarationsList.get(position).getLinkPDF()*/
 
       //  model.
 

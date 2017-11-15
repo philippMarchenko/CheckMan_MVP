@@ -53,11 +53,11 @@ public class ListDeclarationsModel implements ListDeclarationsContract.Model{
 
     File filePath;
 
-    public ListDeclarationsModel(Context context){
+    public ListDeclarationsModel(){
 
        // this.preferences = preferences;
 
-        mContext = context;
+       
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
