@@ -13,6 +13,9 @@ import com.devfill.checkman_mvp.model.Declarations;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
@@ -23,6 +26,7 @@ public class  ListDeclarationsPresenter extends PresenterBase<ListDeclarationsCo
     private String LOG_TAG = "ListDeclarationsPresenter";
 
     private ListDeclarationsContract.Model model = new ListDeclarationsModel();
+    private List<Declarations.Item> declarationsList = new ArrayList<>();
 
     private ListDeclarationsContract.View view;
     private Context mContext;
@@ -41,37 +45,13 @@ public class  ListDeclarationsPresenter extends PresenterBase<ListDeclarationsCo
 
 
     @Override
-    public void onClickListItem(int position) {
+    public void onClickItemDeclarations(int position) {
 
+        String  name =  declarationsList.get(position).getLastname() + " " + declarationsList.get(position).getFirstname(); //достаем имя
+        downloadFile(declarationsList.get(position).getLinkPDF(),name); //качаем файл по ссылке
+        declarationsList.get(position).getLinkPDF()
 
-
-
-       /* if (!subscriber.is()) {
-            subscription.unsubscribe();
-        }
-
-        subscription = model.getRepoList(view.getUserName())
-                .subscribe(new Observer<List<Repo>>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        view.showError(e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(List<Repo> data) {
-                        if (data != null && !data.isEmpty()) {
-                            view.showData(data);
-                        } else {
-                            view.showEmptyList();
-                        }
-                    }
-                });*/
-
+      //  model.
 
     }
 
@@ -94,6 +74,8 @@ public class  ListDeclarationsPresenter extends PresenterBase<ListDeclarationsCo
                             try{
                                 getView().showListDeclarations(declarations);
                                 getView().hideDownloadMode();
+
+                                declarationsList = declarations.getItems();
                             }
                             catch(Exception e){
                                 getView().showMessage(R.string.no_result);

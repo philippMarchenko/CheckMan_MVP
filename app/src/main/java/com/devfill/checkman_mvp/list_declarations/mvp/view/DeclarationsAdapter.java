@@ -26,7 +26,7 @@ public class DeclarationsAdapter extends RecyclerView.Adapter<DeclarationsAdapte
     IDeclarationsAdapterListener iDeclarationsAdapterListener;
 
     public interface IDeclarationsAdapterListener {
-        public void onClickItemList(int position);
+        public void onClickItemListDeclarations(int position);
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
@@ -99,7 +99,7 @@ public class DeclarationsAdapter extends RecyclerView.Adapter<DeclarationsAdapte
             @Override
             public void onClick(View view) {
 
-              iDeclarationsAdapterListener.onClickItemList(position);
+              iDeclarationsAdapterListener.onClickItemListDeclarations(position);
 
             }
         });

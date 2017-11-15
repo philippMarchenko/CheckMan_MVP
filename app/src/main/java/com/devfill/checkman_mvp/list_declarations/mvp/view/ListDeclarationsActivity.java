@@ -131,6 +131,7 @@ public class ListDeclarationsActivity extends AppCompatActivity implements ListD
 
         recyclerView.setVisibility(View.INVISIBLE);                     //прячем список
         progressBar.setVisibility(View.VISIBLE);                        //покажем прогрусбар
+        materialSearchBar.disableSearch();
 
         listDeclarationsPresenter.getDeclarations(suggestionList.get(position));              //запрос на сервер
     }
@@ -141,7 +142,12 @@ public class ListDeclarationsActivity extends AppCompatActivity implements ListD
     }
 
     @Override
-    public void onClickItemList(int position) {
+    public void onClickItemListDeclarations(int position) {
+
+        recyclerView.setVisibility(View.INVISIBLE);                     //прячем список
+        progressBar.setVisibility(View.VISIBLE);                        //покажем прогрусбар
+
+        listDeclarationsPresenter.onClickItemDeclarations(position);
 
     }
 }

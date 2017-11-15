@@ -7,6 +7,7 @@ import com.devfill.checkman_mvp.base.mvp.MvpView;
 import com.devfill.checkman_mvp.model.Declarations;
 
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,13 +32,15 @@ public interface ListDeclarationsContract {
     interface Presenter extends MvpPresenter<View> {
 
         // field is filled
-        void get(int position);
+        void onClickItemDeclarations(int position);
 
         void getDeclarations(String text);
     }
 
     interface Model extends MvpModel {
 
+
+        File downloadFile ();
         ArrayList<String> getSuggestionList();
         Observable<Declarations> getDeclarations(String name);
 
