@@ -16,19 +16,17 @@ public interface ListDeclarationsContract {
     interface View extends MvpView {
 
         void showListDeclarations(Declarations declarations);
+
         void hideDownloadMode();
 
         void showDeclarationActivity(String name);
 
-        // show message to user
         void showMessage(int messageResId);
 
     }
 
-
     interface Presenter extends MvpPresenter<View> {
 
-        // field is filled
         void onClickItemDeclarations(int position);
 
         void getDeclarations(String text);
@@ -38,7 +36,7 @@ public interface ListDeclarationsContract {
 
 
         Observable downloadFile (String url,String name);
-        ArrayList<String> getSuggestionList();
+
         Observable<Declarations> getDeclarations(String name);
 
     }

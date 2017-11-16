@@ -103,15 +103,16 @@ public class ListDeclarationsActivity extends AppCompatActivity implements ListD
     public void showListDeclarations(Declarations declarations) {
 
         progressBar.setVisibility(View.INVISIBLE);
+        recyclerView.setVisibility(View.VISIBLE);
         declarationsList.clear();
         declarationsList.addAll(declarations.getItems());
         declarationsAdapter.notifyDataSetChanged();
         materialSearchBar.disableSearch();
-
     }
 
     @Override
     public void hideDownloadMode() {
+
         progressBar.setVisibility(View.INVISIBLE);
     }
 
@@ -128,7 +129,6 @@ public class ListDeclarationsActivity extends AppCompatActivity implements ListD
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
 
     }
-
 
     @Override
     public void onSearchStateChanged(boolean enabled) {

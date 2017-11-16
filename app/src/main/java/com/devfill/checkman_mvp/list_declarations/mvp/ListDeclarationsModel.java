@@ -20,6 +20,8 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -116,11 +118,6 @@ public class ListDeclarationsModel implements ListDeclarationsContract.Model{
         return downloadObservable;
     }
 
-
-    @Override
-    public ArrayList<String> getSuggestionList() {
-        return null;
-    }
 
 
 }

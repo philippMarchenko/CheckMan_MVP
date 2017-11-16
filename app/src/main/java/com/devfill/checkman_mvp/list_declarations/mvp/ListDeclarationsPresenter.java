@@ -84,14 +84,19 @@ public class  ListDeclarationsPresenter extends PresenterBase<ListDeclarationsCo
                     .subscribeWith(new DisposableObserver<Declarations>() {
                         @Override
                         public void onNext(Declarations declarations) {
+                            Log.d(LOG_TAG,"onNext getDeclarations ");
+
                             try{
                                 getView().showListDeclarations(declarations);
-                                getView().hideDownloadMode();
+
+                                Log.d(LOG_TAG,"size" + declarations.getItems().size());
 
                                 declarationsList = declarations.getItems();
                             }
                             catch(Exception e){
                                 getView().showMessage(R.string.no_result);
+                                Log.d(LOG_TAG,"error  getDeclarations" + e.getMessage());
+
                             }
                         }
 
