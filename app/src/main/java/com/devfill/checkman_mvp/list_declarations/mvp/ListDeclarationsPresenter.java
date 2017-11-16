@@ -1,17 +1,12 @@
 package com.devfill.checkman_mvp.list_declarations.mvp;
 
-
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
-
 import com.devfill.checkman_mvp.R;
 import com.devfill.checkman_mvp.base.mvp.PresenterBase;
-import com.devfill.checkman_mvp.model.Declarations;
-
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
+import com.devfill.checkman_mvp.model_data.Declarations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +15,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
-
 public class  ListDeclarationsPresenter extends PresenterBase<ListDeclarationsContract.View> implements ListDeclarationsContract.Presenter {
 
     private String LOG_TAG = "ListDeclarationsPresenter";
 
-    private ListDeclarationsContract.Model model = new ListDeclarationsModel();
+    private ListDeclarationsContract.Model model;
     private List<Declarations.Item> declarationsList = new ArrayList<>();
 
     private ListDeclarationsContract.View view;
@@ -34,7 +28,7 @@ public class  ListDeclarationsPresenter extends PresenterBase<ListDeclarationsCo
     public ListDeclarationsPresenter(Context context) {
 
         mContext = context;
-
+        model = new ListDeclarationsModel(context);
     }
 
     @Override
@@ -43,15 +37,34 @@ public class  ListDeclarationsPresenter extends PresenterBase<ListDeclarationsCo
 
     }
 
-
     @Override
     public void onClickItemDeclarations(int position) {
 
-      /*  String  name =  declarationsList.get(position).getLastname() + " " + declarationsList.get(position).getFirstname(); //достаем имя
-        downloadFile(declarationsList.get(position).getLinkPDF(),name); //качаем файл по ссылке
-        declarationsList.get(position).getLinkPDF()*/
+        final String  name =  declarationsList.get(position).getLastname() + " " + declarationsList.get(position).getFirstname(); //достаем имя
+        String  url = declarationsList.get(position).getLinkPDF();
 
-      //  model.
+        model.downloadFile(url,name).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableObserver<Integer>() {
+                    @Override
+                    public void onNext(Integer value) {
+
+                        Log.d(LOG_TAG,"onNext  persent " + value);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        //Handle error
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d(LOG_TAG,"Load file finish! ");
+
+                        getView().hideDownloadMode();
+                        getView().showDeclarationActivity(name);
+                    }
+                });
 
     }
 
@@ -84,17 +97,17 @@ public class  ListDeclarationsPresenter extends PresenterBase<ListDeclarationsCo
 
                         @Override
                         public void onError(Throwable e) {
-                            //Handle error
+                            Log.d(LOG_TAG,"onError getDeclarations " + e.getMessage());
+
                         }
 
                         @Override
                         public void onComplete() {
-
+                            Log.d(LOG_TAG,"onComplete getDeclarations ");
                         }
                     });
         }
     }
-
 
     private String getNetworkType(Context context) {
         ConnectivityManager cm =

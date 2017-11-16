@@ -1,4 +1,4 @@
-package com.devfill.checkman_mvp.model;
+package com.devfill.checkman_mvp.model_data;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

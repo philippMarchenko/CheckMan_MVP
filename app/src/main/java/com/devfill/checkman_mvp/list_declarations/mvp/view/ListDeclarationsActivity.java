@@ -1,5 +1,8 @@
 package com.devfill.checkman_mvp.list_declarations.mvp.view;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -13,10 +16,13 @@ import android.widget.Toast;
 import com.devfill.checkman_mvp.R;
 import com.devfill.checkman_mvp.list_declarations.mvp.ListDeclarationsContract;
 import com.devfill.checkman_mvp.list_declarations.mvp.ListDeclarationsPresenter;
-import com.devfill.checkman_mvp.model.Declarations;
+import com.devfill.checkman_mvp.list_declarations.mvp.view.helper.SavedFragment;
+import com.devfill.checkman_mvp.model_data.Declarations;
+import com.devfill.checkman_mvp.util.ObjectSerializer;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.mancj.materialsearchbar.adapter.SuggestionsAdapter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +50,8 @@ public class ListDeclarationsActivity extends AppCompatActivity implements ListD
 
     private String LOG_TAG = "ListDeclarationsActivity";
 
+    private SavedFragment savedFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,12 +62,26 @@ public class ListDeclarationsActivity extends AppCompatActivity implements ListD
 
         listDeclarationsPresenter = new ListDeclarationsPresenter(getBaseContext());
 
+        savedFragment = (SavedFragment) getSupportFragmentManager().findFragmentByTag("SAVE_FRAGMENT");
 
+        if (savedFragment != null){
+            declarationsList = savedFragment.getDeclarations();
+        }
+        else{
+            savedFragment = new SavedFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .add(savedFragment, "SAVE_FRAGMENT")
+                    .commit();
+        }
 
         progressBar.setVisibility(View.INVISIBLE);
 
         materialSearchBar.setOnSearchActionListener(this);
         materialSearchBar.setSuggstionsClickListener(this);
+
+        restoreSuggestionList();
+
+        materialSearchBar.setLastSuggestions(suggestionList);
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_declarations);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getBaseContext(), 1);
@@ -90,9 +112,15 @@ public class ListDeclarationsActivity extends AppCompatActivity implements ListD
 
     @Override
     public void hideDownloadMode() {
-        //recyclerView.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.INVISIBLE);
-       // materialSearchBar.disableSearch();
+    }
+
+    @Override
+    public void showDeclarationActivity(String name) {
+        Intent intent = new Intent(getBaseContext(), DeclarationActivity.class);
+        intent.putExtra("name",name);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getBaseContext().startActivity(intent);
     }
 
     @Override
@@ -101,10 +129,6 @@ public class ListDeclarationsActivity extends AppCompatActivity implements ListD
 
     }
 
-    @Override
-    public void close() {
-
-    }
 
     @Override
     public void onSearchStateChanged(boolean enabled) {
@@ -148,6 +172,45 @@ public class ListDeclarationsActivity extends AppCompatActivity implements ListD
         progressBar.setVisibility(View.VISIBLE);                        //покажем прогрусбар
 
         listDeclarationsPresenter.onClickItemDeclarations(position);
+
+    }
+
+    private void restoreSuggestionList () {
+
+        SharedPreferences prefs = getSharedPreferences("suggestionList", Context.MODE_PRIVATE);
+        try {
+            suggestionList = (ArrayList<String>) ObjectSerializer.deserialize(prefs.getString("LIST", ObjectSerializer.serialize(new ArrayList<String>())));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        Log.i(LOG_TAG, "MainFragment onPause");
+
+
+        savedFragment.setDeclarations(declarationsList);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        SharedPreferences prefs = getSharedPreferences("suggestionList", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        try {
+            editor.putString("LIST", ObjectSerializer.serialize(suggestionList));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        editor.commit();
+
+        Log.i(LOG_TAG, "MainFragment onDestroy");
+
+
 
     }
 }

@@ -4,12 +4,10 @@ package com.devfill.checkman_mvp.list_declarations.mvp;
 import com.devfill.checkman_mvp.base.mvp.MvpModel;
 import com.devfill.checkman_mvp.base.mvp.MvpPresenter;
 import com.devfill.checkman_mvp.base.mvp.MvpView;
-import com.devfill.checkman_mvp.model.Declarations;
+import com.devfill.checkman_mvp.model_data.Declarations;
 
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 import io.reactivex.Observable;
 
@@ -20,12 +18,11 @@ public interface ListDeclarationsContract {
         void showListDeclarations(Declarations declarations);
         void hideDownloadMode();
 
+        void showDeclarationActivity(String name);
 
         // show message to user
         void showMessage(int messageResId);
 
-        // close screen
-        void close();
     }
 
 
@@ -40,7 +37,7 @@ public interface ListDeclarationsContract {
     interface Model extends MvpModel {
 
 
-        File downloadFile ();
+        Observable downloadFile (String url,String name);
         ArrayList<String> getSuggestionList();
         Observable<Declarations> getDeclarations(String name);
 

@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.devfill.checkman_mvp.R;
-import com.devfill.checkman_mvp.model.Declarations;
+import com.devfill.checkman_mvp.model_data.Declarations;
 
 import java.util.List;
 

@@ -1,10 +1,9 @@
 package com.devfill.checkman_mvp.internet;
 
 
-import com.devfill.checkman_mvp.model.Declarations;
+import com.devfill.checkman_mvp.model_data.Declarations;
 
 import io.reactivex.Observable;
-import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
