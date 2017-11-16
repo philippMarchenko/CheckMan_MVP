@@ -52,7 +52,6 @@ public class ListDeclarationsActivity extends AppCompatActivity implements ListD
 
     private SavedFragment savedFragment;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,7 +96,6 @@ public class ListDeclarationsActivity extends AppCompatActivity implements ListD
         // view is ready to work
         listDeclarationsPresenter.viewIsReady();
     }
-
 
     @Override
     public void showListDeclarations(Declarations declarations) {
@@ -213,5 +211,6 @@ public class ListDeclarationsActivity extends AppCompatActivity implements ListD
 
 
     }
+    
 }
 
