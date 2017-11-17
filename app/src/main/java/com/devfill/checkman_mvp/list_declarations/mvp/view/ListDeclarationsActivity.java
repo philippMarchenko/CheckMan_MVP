@@ -14,8 +14,10 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.devfill.checkman_mvp.R;
-import com.devfill.checkman_mvp.list_declarations.mvp.ListDeclarationsContract;
-import com.devfill.checkman_mvp.list_declarations.mvp.ListDeclarationsPresenter;
+import com.devfill.checkman_mvp.dagger.App;
+import com.devfill.checkman_mvp.dagger.AppComponent;
+import com.devfill.checkman_mvp.list_declarations.mvp.AppDeclarationsContract;
+import com.devfill.checkman_mvp.list_declarations.mvp.presenter.AppDeclarationsPresenter;
 import com.devfill.checkman_mvp.list_declarations.mvp.view.helper.SavedFragment;
 import com.devfill.checkman_mvp.model_data.Declarations;
 import com.devfill.checkman_mvp.util.ObjectSerializer;
@@ -26,10 +28,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ListDeclarationsActivity extends AppCompatActivity implements ListDeclarationsContract.View,
+public class ListDeclarationsActivity extends AppCompatActivity implements AppDeclarationsContract.View,
         MaterialSearchBar.OnSearchActionListener,
         SuggestionsAdapter.OnItemViewClickListener,
         DeclarationsAdapter.IDeclarationsAdapterListener{
@@ -43,7 +47,9 @@ public class ListDeclarationsActivity extends AppCompatActivity implements ListD
     @BindView(R.id.progress)
     ProgressBar progressBar;
 
-    ListDeclarationsPresenter listDeclarationsPresenter;
+    @Inject
+    AppDeclarationsPresenter appDeclarationsPresenter;
+
     private DeclarationsAdapter declarationsAdapter;
     private List<Declarations.Item> declarationsList = new ArrayList<>();
     private ArrayList<String> suggestionList = new ArrayList<String>();
@@ -59,19 +65,25 @@ public class ListDeclarationsActivity extends AppCompatActivity implements ListD
 
         ButterKnife.bind(this);
 
-        listDeclarationsPresenter = new ListDeclarationsPresenter(getBaseContext());
+        App.createComponent(this,getApplicationContext());
 
-        savedFragment = (SavedFragment) getSupportFragmentManager().findFragmentByTag("SAVE_FRAGMENT");
+        appDeclarationsPresenter = App.getComponent().getAppDeclarationsPresenter();
+        declarationsList = App.getComponent().getDeclarationsProvider().getDeclarationsList();
 
-        if (savedFragment != null){
+      //  savedFragment = (SavedFragment) getSupportFragmentManager().findFragmentByTag("SAVE_FRAGMENT");
+
+
+
+      /*  if (savedFragment != null){
             declarationsList = savedFragment.getDeclarations();
         }
+
         else{
             savedFragment = new SavedFragment();
             getSupportFragmentManager().beginTransaction()
                     .add(savedFragment, "SAVE_FRAGMENT")
                     .commit();
-        }
+        }*/
 
         progressBar.setVisibility(View.INVISIBLE);
 
@@ -91,10 +103,10 @@ public class ListDeclarationsActivity extends AppCompatActivity implements ListD
         recyclerView.setAdapter(declarationsAdapter);
 
         // attach view to presenter
-        listDeclarationsPresenter.attachView(this);
+        appDeclarationsPresenter.attachView(this);
 
         // view is ready to work
-        listDeclarationsPresenter.viewIsReady();
+        appDeclarationsPresenter.viewIsReady();
     }
 
     @Override
@@ -140,7 +152,7 @@ public class ListDeclarationsActivity extends AppCompatActivity implements ListD
         suggestionList.add(text.toString());
         progressBar.setVisibility(View.VISIBLE);                        //покажем прогресбар
         materialSearchBar.disableSearch();
-        listDeclarationsPresenter.getDeclarations(text.toString());
+        appDeclarationsPresenter.getDeclarations(text.toString());
     }
 
     @Override
@@ -155,7 +167,7 @@ public class ListDeclarationsActivity extends AppCompatActivity implements ListD
         progressBar.setVisibility(View.VISIBLE);                        //покажем прогрусбар
         materialSearchBar.disableSearch();
 
-        listDeclarationsPresenter.getDeclarations(suggestionList.get(position));              //запрос на сервер
+        appDeclarationsPresenter.getDeclarations(suggestionList.get(position));              //запрос на сервер
     }
 
     @Override
@@ -169,7 +181,7 @@ public class ListDeclarationsActivity extends AppCompatActivity implements ListD
         recyclerView.setVisibility(View.INVISIBLE);                     //прячем список
         progressBar.setVisibility(View.VISIBLE);                        //покажем прогрусбар
 
-        listDeclarationsPresenter.onClickItemDeclarations(position);
+        appDeclarationsPresenter.onClickItemDeclarations(position);
 
     }
 
@@ -189,8 +201,9 @@ public class ListDeclarationsActivity extends AppCompatActivity implements ListD
 
         Log.i(LOG_TAG, "MainFragment onPause");
 
+        App.getComponent().getDeclarationsProvider().setDeclarationsList(declarationsList);
 
-        savedFragment.setDeclarations(declarationsList);
+//        savedFragment.setDeclarations(declarationsList);
     }
 
     @Override
@@ -211,6 +224,6 @@ public class ListDeclarationsActivity extends AppCompatActivity implements ListD
 
 
     }
-    
+
 }
 

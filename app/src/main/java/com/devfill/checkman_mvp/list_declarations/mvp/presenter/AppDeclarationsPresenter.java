@@ -1,4 +1,4 @@
-package com.devfill.checkman_mvp.list_declarations.mvp;
+package com.devfill.checkman_mvp.list_declarations.mvp.presenter;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -6,6 +6,9 @@ import android.net.NetworkInfo;
 import android.util.Log;
 import com.devfill.checkman_mvp.R;
 import com.devfill.checkman_mvp.base.mvp.PresenterBase;
+import com.devfill.checkman_mvp.dagger.App;
+import com.devfill.checkman_mvp.list_declarations.mvp.AppDeclarationsContract;
+import com.devfill.checkman_mvp.list_declarations.mvp.model.AppDeclarationsModel;
 import com.devfill.checkman_mvp.model_data.Declarations;
 
 import java.util.ArrayList;
@@ -15,20 +18,18 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
-public class  ListDeclarationsPresenter extends PresenterBase<ListDeclarationsContract.View> implements ListDeclarationsContract.Presenter {
+public class AppDeclarationsPresenter extends PresenterBase<AppDeclarationsContract.View> implements AppDeclarationsContract.Presenter {
 
-    private String LOG_TAG = "ListDeclarationsPresenter";
+    private String LOG_TAG = "AppDeclarationsPresenter";
 
-    private ListDeclarationsContract.Model model;
+    private AppDeclarationsContract.Model model;
     private List<Declarations.Item> declarationsList = new ArrayList<>();
-
-    private ListDeclarationsContract.View view;
     private Context mContext;
 
-    public ListDeclarationsPresenter(Context context) {
+    public AppDeclarationsPresenter() {
 
-        mContext = context;
-        model = new ListDeclarationsModel(context);
+        mContext =  App.getComponent().getContext();
+        model = new AppDeclarationsModel();
     }
 
     @Override
