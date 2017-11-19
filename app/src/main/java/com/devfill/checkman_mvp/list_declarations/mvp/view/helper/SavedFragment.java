@@ -6,11 +6,12 @@ import android.support.v4.app.Fragment;
 
 import com.devfill.checkman_mvp.model_data.Declarations;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SavedFragment extends Fragment {
 
-    private List<Declarations.Item> declarationsList;
+    private List<Declarations.Item> declarationsList = new ArrayList<>();
 
 
     @Override

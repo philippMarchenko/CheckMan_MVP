@@ -3,6 +3,7 @@ package com.devfill.checkman_mvp.dagger.module.view;
 
 import android.app.Activity;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 
 import com.devfill.checkman_mvp.dagger.App;
 import com.devfill.checkman_mvp.list_declarations.mvp.presenter.AppDeclarationsPresenter;
@@ -21,51 +22,65 @@ import dagger.Provides;
 
 public class ListDeclarationsActivityModule {
 
-    private DeclarationsListProvider declarationsListProvider;
+    SavedFragment savedFragment;
 
-    private SavedFragment savedFragment;
+    FragmentActivity fragmentActivity;
 
-    public ListDeclarationsActivityModule(Activity activity){
+    public ListDeclarationsActivityModule(Activity activity) {
+        fragmentActivity = (FragmentActivity) activity;
+    }
 
-        declarationsListProvider = new DeclarationsListProvider(activity);
 
+    @Provides
+    @Singleton
+    SavedFragment providesavedFragment() {
+        Log.d("ListDeclarationsActivityModule","DeclarationsListProvider");
+
+         savedFragment = (SavedFragment) fragmentActivity.getSupportFragmentManager().findFragmentByTag("SAVE_FRAGMENT");
+
+
+        if (savedFragment != null){
+             Log.d("ListDeclarationsActivityModule","savedFragment not null");
+
+             return savedFragment;
+         }
+
+            else {
+             Log.d("ListDeclarationsActivityModule","savedFragment null");
+             savedFragment = new SavedFragment();
+             fragmentActivity.getSupportFragmentManager().beginTransaction()
+                     .add(savedFragment, "SAVE_FRAGMENT")
+                     .commit();
+
+             return savedFragment;
+         }
     }
 
     @Provides
     @Singleton
-    DeclarationsListProvider provideDeclarationsList() {
-        return declarationsListProvider;
+    DeclarationsListProvider provideDeclarationsList(SavedFragment savedFragment) {
+
+        return new DeclarationsListProvider(savedFragment);
     }
 
     public class DeclarationsListProvider {
-        FragmentActivity fragmentActivity;
 
-        DeclarationsListProvider(Activity activity){
-            fragmentActivity =  (FragmentActivity) activity;
+        SavedFragment mSavedFragment;
 
+        public DeclarationsListProvider(SavedFragment savedFragment){
+
+            mSavedFragment = savedFragment;
         }
-
-        private List<Declarations.Item> declarationsList = new ArrayList<>();
 
         public List<Declarations.Item> getDeclarationsList() {
 
-            if (savedFragment != null){
-                declarationsList = savedFragment.getDeclarations();
-            }
-
-            else{
-                savedFragment = new SavedFragment();
-                fragmentActivity.getSupportFragmentManager().beginTransaction()
-                        .add(savedFragment, "SAVE_FRAGMENT")
-                        .commit();
-            }
-
-
-            return declarationsList;
+            Log.d("ListDeclarationsActivityModule","DeclarationsListProvider declarationsList");
+            return mSavedFragment.getDeclarations();
         }
 
         public void setDeclarationsList(List<Declarations.Item> declarationsList) {
-            savedFragment.setDeclarations(declarationsList);
+           /* savedFragment.setDeclarations(declarationsList);*/
+            mSavedFragment.setDeclarations(declarationsList);
         }
     }
 }

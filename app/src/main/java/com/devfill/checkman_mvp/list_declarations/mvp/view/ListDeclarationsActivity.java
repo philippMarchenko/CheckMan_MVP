@@ -56,8 +56,6 @@ public class ListDeclarationsActivity extends AppCompatActivity implements AppDe
 
     private String LOG_TAG = "ListDeclarationsActivity";
 
-    private SavedFragment savedFragment;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,21 +67,6 @@ public class ListDeclarationsActivity extends AppCompatActivity implements AppDe
 
         appDeclarationsPresenter = App.getComponent().getAppDeclarationsPresenter();
         declarationsList = App.getComponent().getDeclarationsProvider().getDeclarationsList();
-
-      //  savedFragment = (SavedFragment) getSupportFragmentManager().findFragmentByTag("SAVE_FRAGMENT");
-
-
-
-      /*  if (savedFragment != null){
-            declarationsList = savedFragment.getDeclarations();
-        }
-
-        else{
-            savedFragment = new SavedFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .add(savedFragment, "SAVE_FRAGMENT")
-                    .commit();
-        }*/
 
         progressBar.setVisibility(View.INVISIBLE);
 
@@ -118,6 +101,8 @@ public class ListDeclarationsActivity extends AppCompatActivity implements AppDe
         declarationsList.addAll(declarations.getItems());
         declarationsAdapter.notifyDataSetChanged();
         materialSearchBar.disableSearch();
+
+        App.getComponent().getDeclarationsProvider().setDeclarationsList(declarations.getItems());
     }
 
     @Override
@@ -132,6 +117,8 @@ public class ListDeclarationsActivity extends AppCompatActivity implements AppDe
         intent.putExtra("name",name);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getBaseContext().startActivity(intent);
+
+
     }
 
     @Override
@@ -201,10 +188,15 @@ public class ListDeclarationsActivity extends AppCompatActivity implements AppDe
 
         Log.i(LOG_TAG, "MainFragment onPause");
 
-        App.getComponent().getDeclarationsProvider().setDeclarationsList(declarationsList);
+
 
 //        savedFragment.setDeclarations(declarationsList);
     }
+
+    private void restoreData(){
+
+    }
+
 
     @Override
     public void onDestroy() {

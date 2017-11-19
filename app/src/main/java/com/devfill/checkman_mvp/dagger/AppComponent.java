@@ -6,6 +6,7 @@ import com.devfill.checkman_mvp.dagger.module.model.ServerAPIModule;
 import com.devfill.checkman_mvp.dagger.module.presenter.AppDeclarationsPresenterModule;
 import com.devfill.checkman_mvp.dagger.module.view.ListDeclarationsActivityModule;
 import com.devfill.checkman_mvp.internet.ServerAPI;
+import com.devfill.checkman_mvp.list_declarations.mvp.model.AppDeclarationsModel;
 import com.devfill.checkman_mvp.list_declarations.mvp.presenter.AppDeclarationsPresenter;
 import com.devfill.checkman_mvp.model_data.Declarations;
 
@@ -26,6 +27,8 @@ public interface AppComponent {
     Context getContext();
 
     ServerAPI getServerAPI();
+
+    AppDeclarationsModel getAppDeclarationsModel();
 
     AppDeclarationsPresenter getAppDeclarationsPresenter();
 

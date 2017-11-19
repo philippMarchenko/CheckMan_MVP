@@ -1,5 +1,6 @@
 package com.devfill.checkman_mvp.dagger.module.presenter;
 
+import com.devfill.checkman_mvp.list_declarations.mvp.model.AppDeclarationsModel;
 import com.devfill.checkman_mvp.list_declarations.mvp.presenter.AppDeclarationsPresenter;
 
 import javax.inject.Singleton;
@@ -14,6 +15,14 @@ public class AppDeclarationsPresenterModule {
     @Singleton
     AppDeclarationsPresenter provideAppDeclarationsPresenter() {
         return new AppDeclarationsPresenter();
+
+    }
+
+
+    @Provides
+    @Singleton
+    AppDeclarationsModel provideAppDeclarationsModel() {
+        return new AppDeclarationsModel();
 
     }
 }

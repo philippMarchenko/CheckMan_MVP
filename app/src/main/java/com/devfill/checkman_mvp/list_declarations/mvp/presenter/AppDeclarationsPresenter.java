@@ -29,7 +29,7 @@ public class AppDeclarationsPresenter extends PresenterBase<AppDeclarationsContr
     public AppDeclarationsPresenter() {
 
         mContext =  App.getComponent().getContext();
-        model = new AppDeclarationsModel();
+        model = App.getComponent().getAppDeclarationsModel();
     }
 
     @Override
